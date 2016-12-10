@@ -25,6 +25,7 @@ public class WatsonAlchemyService implements NLPAnalysisService {
 
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put(AlchemyLanguage.TEXT, text);
+		params.put(AlchemyLanguage.SENTIMENT, 1);
 
 		Entities entities = service.getEntities(params).execute();
 
@@ -37,9 +38,13 @@ public class WatsonAlchemyService implements NLPAnalysisService {
 				Entity entity = new Entity();
 				entity.setName(watsonEntity.getText());
 				if (watsonEntity.getSentiment() != null) {
-					entity.setSentiment(Sentiment.valueOf(watsonEntity.getSentiment().toString()));
+					entity.setSentiment(Sentiment.valueOf(watsonEntity.getSentiment().getType().toString()));
+					if (watsonEntity.getSentiment().getScore() != null) {
+						entity.setSentimentRelevance(watsonEntity.getSentiment().getScore());
+					}
 				}
 				entity.setType(watsonEntity.getType());
+				entity.setEntityRelevance(watsonEntity.getRelevance());
 				responseEntities.add(entity);
 			}
 		}

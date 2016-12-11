@@ -1,0 +1,15 @@
+DELETE /application_document
+PUT application_document
+{
+    "mappings" : {
+        "products" : {
+            "properties" : {
+                "canonicalPath" : {
+                    "type" : "string",
+                    "index" : "not_analyzed" 
+                }
+            }
+        }
+    }
+
+}

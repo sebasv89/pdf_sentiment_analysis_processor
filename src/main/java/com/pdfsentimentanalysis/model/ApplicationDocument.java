@@ -10,6 +10,8 @@ public class ApplicationDocument {
 
 	private String canonicalPath;
 
+	private String completeText;
+
 	private List<Entity> entities;
 
 	public String getProject() {
@@ -42,6 +44,14 @@ public class ApplicationDocument {
 
 	public void setEntities(List<Entity> entities) {
 		this.entities = entities;
+	}
+
+	public String getCompleteText() {
+		return completeText;
+	}
+
+	public void setCompleteText(String completeText) {
+		this.completeText = completeText;
 	}
 
 }

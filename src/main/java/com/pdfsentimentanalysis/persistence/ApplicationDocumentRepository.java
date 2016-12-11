@@ -10,5 +10,5 @@ public interface ApplicationDocumentRepository {
 
 	List<ApplicationDocument> searchByKeyword(String keyword);
 
-	boolean isFileProcessed(String completeFilePath);
+	boolean isFileAlreadyProcessed(String completeFilePath);
 }

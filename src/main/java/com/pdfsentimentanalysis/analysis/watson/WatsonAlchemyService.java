@@ -11,6 +11,7 @@ import org.springframework.util.CollectionUtils;
 import com.ibm.watson.developer_cloud.alchemy.v1.AlchemyLanguage;
 import com.ibm.watson.developer_cloud.alchemy.v1.model.Entities;
 import com.pdfsentimentanalysis.model.Entity;
+import com.pdfsentimentanalysis.model.EntityInDocument;
 import com.pdfsentimentanalysis.model.Sentiment;
 
 @Component
@@ -31,21 +32,23 @@ public class WatsonAlchemyService implements NLPAnalysisService {
 
 		EntityListResponse response = new EntityListResponse();
 		response.setLanguage(entities.getLanguage());
-		List<Entity> responseEntities = new ArrayList<Entity>();
+		List<EntityInDocument> responseEntities = new ArrayList<EntityInDocument>();
 		if (entities != null && CollectionUtils.isEmpty(entities.getEntities()) == false) {
 
 			for (com.ibm.watson.developer_cloud.alchemy.v1.model.Entity watsonEntity : entities.getEntities()) {
+				EntityInDocument entityInDocument = new EntityInDocument();
 				Entity entity = new Entity();
 				entity.setName(watsonEntity.getText());
+				entity.setType(watsonEntity.getType());
+				entityInDocument.setEntity(entity);
 				if (watsonEntity.getSentiment() != null) {
-					entity.setSentiment(Sentiment.valueOf(watsonEntity.getSentiment().getType().toString()));
+					entityInDocument.setSentiment(Sentiment.valueOf(watsonEntity.getSentiment().getType().toString()));
 					if (watsonEntity.getSentiment().getScore() != null) {
-						entity.setSentimentRelevance(watsonEntity.getSentiment().getScore());
+						entityInDocument.setSentimentRelevance(watsonEntity.getSentiment().getScore());
 					}
 				}
-				entity.setType(watsonEntity.getType());
-				entity.setEntityRelevance(watsonEntity.getRelevance());
-				responseEntities.add(entity);
+				entityInDocument.setEntityRelevance(watsonEntity.getRelevance());
+				responseEntities.add(entityInDocument);
 			}
 		}
 		response.setEntities(responseEntities);

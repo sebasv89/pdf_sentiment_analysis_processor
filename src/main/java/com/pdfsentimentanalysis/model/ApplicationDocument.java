@@ -12,7 +12,7 @@ public class ApplicationDocument {
 
 	private String completeText;
 
-	private List<Entity> entities;
+	private List<EntityInDocument> entities;
 
 	public String getProject() {
 		return project;
@@ -38,11 +38,11 @@ public class ApplicationDocument {
 		this.canonicalPath = canonicalPath;
 	}
 
-	public List<Entity> getEntities() {
+	public List<EntityInDocument> getEntities() {
 		return entities;
 	}
 
-	public void setEntities(List<Entity> entities) {
+	public void setEntities(List<EntityInDocument> entities) {
 		this.entities = entities;
 	}
 

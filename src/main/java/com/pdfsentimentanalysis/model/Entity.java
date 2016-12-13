@@ -6,11 +6,6 @@ public class Entity {
 
 	private String type;
 
-	private Sentiment sentiment;
-	private double sentimentRelevance;
-
-	private double entityRelevance;
-
 	public String getName() {
 		return name;
 	}
@@ -25,30 +20,6 @@ public class Entity {
 
 	public void setType(String type) {
 		this.type = type;
-	}
-
-	public Sentiment getSentiment() {
-		return sentiment;
-	}
-
-	public void setSentiment(Sentiment sentiment) {
-		this.sentiment = sentiment;
-	}
-
-	public double getSentimentRelevance() {
-		return sentimentRelevance;
-	}
-
-	public void setSentimentRelevance(double sentimentRelevance) {
-		this.sentimentRelevance = sentimentRelevance;
-	}
-
-	public double getEntityRelevance() {
-		return entityRelevance;
-	}
-
-	public void setEntityRelevance(double entityRelevance) {
-		this.entityRelevance = entityRelevance;
 	}
 
 }

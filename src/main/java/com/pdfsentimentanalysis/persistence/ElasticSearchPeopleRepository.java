@@ -1,13 +1,12 @@
 package com.pdfsentimentanalysis.persistence;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.stereotype.Component;
 
-import com.pdfsentimentanalysis.model.ApplicationDocument;
+import com.pdfsentimentanalysis.model.Entity;
 
 import io.searchbox.client.JestClient;
 import io.searchbox.core.Index;
@@ -15,14 +14,19 @@ import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
 
 @Component
-public class ElasticSearchApplicationDocumentRepository implements ApplicationDocumentRepository {
+public class ElasticSearchPeopleRepository implements PeopleRepository {
 
-	private static final String APPLICATION_DOCUMENT_INDEX_NAME = "application_document";
-	private static final String TYPE_NAME = "pdf_file";
+	private static final String ENTITY_INDEX_NAME = "people";
+	private static final String ENTITY_TYPE_NAME = "person";
 
 	@Override
-	public void save(ApplicationDocument document) {
-		Index index = new Index.Builder(document).index(APPLICATION_DOCUMENT_INDEX_NAME).type(TYPE_NAME).build();
+	public void save(Entity entity) {
+		if (doesEntityNameExist(entity.getName())) {
+			// TODO-LOG
+			System.out.println("entity already exists...");
+			return;
+		}
+		Index index = new Index.Builder(entity).index(ENTITY_INDEX_NAME).type(ENTITY_TYPE_NAME).build();
 		JestClient client = ElasticSearchUtils.getClient();
 		try {
 			client.execute(index);
@@ -34,18 +38,11 @@ public class ElasticSearchApplicationDocumentRepository implements ApplicationDo
 		}
 	}
 
-	@Override
-	public List<ApplicationDocument> searchByKeyword(String keyword) {
-		return null;
-	}
-
-	@Override
-	public boolean isFileAlreadyProcessed(String completeFilePath) {
+	private boolean doesEntityNameExist(String entityName) {
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		searchSourceBuilder.query(QueryBuilders.termQuery("canonicalPath", completeFilePath));
+		searchSourceBuilder.query(QueryBuilders.termQuery("name", entityName));
 
-		Search search = new Search.Builder(searchSourceBuilder.toString()).addIndex(APPLICATION_DOCUMENT_INDEX_NAME)
-				.build();
+		Search search = new Search.Builder(searchSourceBuilder.toString()).addIndex(ENTITY_INDEX_NAME).build();
 
 		JestClient client = ElasticSearchUtils.getClient();
 

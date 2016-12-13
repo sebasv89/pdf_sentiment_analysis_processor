@@ -2,19 +2,19 @@ package com.pdfsentimentanalysis.analysis.watson;
 
 import java.util.List;
 
-import com.pdfsentimentanalysis.model.Entity;
+import com.pdfsentimentanalysis.model.EntityInDocument;
 
 public class EntityListResponse {
 
-	private List<Entity> entities;
+	private List<EntityInDocument> entities;
 
 	private String language;
 
-	public List<Entity> getEntities() {
+	public List<EntityInDocument> getEntities() {
 		return entities;
 	}
 
-	public void setEntities(List<Entity> entities) {
+	public void setEntities(List<EntityInDocument> entities) {
 		this.entities = entities;
 	}
 

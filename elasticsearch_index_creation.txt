@@ -2,9 +2,25 @@ DELETE /application_document
 PUT application_document
 {
     "mappings" : {
-        "products" : {
+        "pdf_file" : {
             "properties" : {
                 "canonicalPath" : {
+                    "type" : "string",
+                    "index" : "not_analyzed" 
+                }
+            }
+        }
+    }
+
+}
+
+DELETE /people
+PUT people
+{
+    "mappings" : {
+        "entity" : {
+            "properties" : {
+                "name" : {
                     "type" : "string",
                     "index" : "not_analyzed" 
                 }

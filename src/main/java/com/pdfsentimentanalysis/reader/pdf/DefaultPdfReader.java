@@ -17,7 +17,8 @@ public class DefaultPdfReader implements PdfReader {
 			System.err.println("File " + path + " does not exist.");
 			throw new IOException("file does not exist");
 		}
-		PDDocument doc = PDDocument.load(pdfFile);
-		return new PDFTextStripper().getText(doc);
+		try (PDDocument doc = PDDocument.load(pdfFile)) {
+			return new PDFTextStripper().getText(doc);
+		}
 	}
 }
